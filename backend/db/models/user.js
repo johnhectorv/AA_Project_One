@@ -10,6 +10,18 @@ module.exports = (sequelize, DataTypes) => {
 
   User.init(
     {
+      id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      firstName: {
+        type: DataTypes.STRING,
+      },
+      lastName: {
+        type: DataTypes.STRING,
+      },
       username: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -22,6 +34,13 @@ module.exports = (sequelize, DataTypes) => {
           }
         }
       },
+      hashedPassword: {
+        type: DataTypes.STRING.BINARY,
+        allowNull: false,
+        validate: {
+          len: [60, 60]
+        }
+      },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -30,13 +49,12 @@ module.exports = (sequelize, DataTypes) => {
           isEmail: true
         }
       },
-      hashedPassword: {
-        type: DataTypes.STRING.BINARY,
-        allowNull: false,
-        validate: {
-          len: [60, 60]
-        }
-      }
+      createdAt: {
+        type: DataTypes.DATE
+      },
+      updatedAt: {
+        type: DataTypes.DATE
+      },
     },
     {
       sequelize,

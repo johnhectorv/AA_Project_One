@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const sessionRouter = require('./session.js');
 const usersRouter = require('./users.js');
+const spotsRouter = require('./spots.js');
 const { restoreUser } = require("../../utils/auth.js");
 
 router.use(restoreUser);
@@ -9,23 +10,7 @@ router.use('/session', sessionRouter);
 
 router.use('/users', usersRouter);
 
-router.get('/current-user', (req, res) => {
-  if (requireAuth(req)) {
-    res.status(200).json({
-      user: {
-        id: req.user.id,
-        firstName: req.user.lastname,
-        lastname: req.user.lastname,
-        email: req.user.email,
-        username: req.user.username
-      }
-    });
-  } else {
-    res.status(200).json({
-      user: null
-    });
-  }
-});
+router.use('/spots', spotsRouter);
 
 router.post('/login', (req, res) => {
   const { credential, password } = req.body;

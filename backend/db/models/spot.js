@@ -9,10 +9,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
-      Spot.belongsTo(models.User, {
-        foreignKey: 'ownerId'
-      });
+      Spot.belongsTo(models.User, { as: 'Owner', foreignKey: 'ownerId' });
+      Spot.hasMany(models.Booking, { foreignKey: 'spotId'});
+      Spot.hasMany(models.Review, { foreignKey: 'spotId' });
+      Spot.hasMany(models.SpotImage, { foreignKey: 'spotId'});
     }
   }
   Spot.init({
@@ -27,8 +27,8 @@ module.exports = (sequelize, DataTypes) => {
     city: DataTypes.STRING,
     state: DataTypes.STRING,
     country: DataTypes.STRING,
-    lat: DataTypes.INTEGER,
-    lng: DataTypes.INTEGER,
+    lat: DataTypes.DECIMAL(9,7),
+    lng: DataTypes.DECIMAL(10,7),
     name: DataTypes.STRING,
     description: DataTypes.STRING,
     price: DataTypes.INTEGER,

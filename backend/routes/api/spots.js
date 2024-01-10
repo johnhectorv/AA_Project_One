@@ -23,8 +23,6 @@ router.get('/current', requireAuth, async (req, res) => {
     try {
         const userId = req.user.id;
 
-        console.log("HERE:" + userId);
-
         const ownedSpots = await Spot.findAll({
             where: { ownerId: userId }
         });
@@ -86,7 +84,7 @@ router.post('/', requireAuth, async (req, res) => {
           const spot = await Spot.findOne({
             where: { id: spotId },
              include: [
-              { model: SpotImage },
+              { model: SpotImage, attributes: ['id', 'url', 'preview']},
               { model: User, as: 'Owner', attributes: ['id', 'firstName', 'lastName'] }
             ]
           });
@@ -107,34 +105,46 @@ router.post('/', requireAuth, async (req, res) => {
         }
       });
 
-      router.post('/:spotId/images', async (req, res) => {
-        try {
+      router.delete('/:spotId', requireAuth, async (req, res) => {
+        try{
           const spotId = req.params.spotId;
-          const { url, preview } = req.body;
 
-          const spot = await Spot.findOne({ where: { id: spotId } });
+          const spot = await Spot.findOne({
+            where: { id: spotId },
+          });
 
           if (!spot) {
             return res.status(404).json({message: 'Spot could not be found'})
           };
 
-          const newImage = await SpotImage.create({
-            spotId,
-            url,
-            preview,
+          if (!(spot.ownerId === req.user.id)) {
+            return res.status(404).json({message: 'Not Authorized'})
+          };
+
+          await Spot.destroy({
+            where: { id:spotId }
           });
 
-          res.status(200).json(newImage);
+          res.status(200).json({ message: 'Successfully deleted' });
 
         } catch (error) {
           console.error(error);
           res.status(500).json({ error: 'Internal Server Error' });
-      }
+        }
+      });
 
-      router.put('/:spotId', async (req, res) => {
+      router.put('/:spotId', requireAuth, async (req, res) => {
         try {
           const spotId = req.params.spotId;
-          const spotData = req.body;
+          const { address, city, state, country, lat, lng, name, description, price } = req.body;
+
+          const spot = await Spot.findOne({
+            where: { id: spotId },
+          });
+
+          if (!(spot.ownerId === req.user.id)) {
+            return res.status(404).json({message: 'Not Authorized'})
+          };
 
           if (!address || !city || !state || !country || lat < -90 || lat > 90 || lng < -180 || lng > 180 || !name || name.length > 50 || !description || price <= 0) {
             return res.status(400).json({
@@ -153,16 +163,41 @@ router.post('/', requireAuth, async (req, res) => {
             });
           }
 
-          const spot = Spot.findOne({ where: { id: spotId }});
-
           if(!spot) {
             return res.status(404).json({
               message: 'Spot could not be found'
             });
           }
 
-          const updatedSpot = await Spot.update({ spotData }, {
-            where: { id: spotId}
+          await Spot.update({
+            address: address,
+            city: city,
+            state: state,
+            country: country,
+            lat: lat,
+            lng: lng,
+            name: name,
+            description: description,
+            price: price,
+          },
+          {
+            where: { id: spotId }
+          });
+
+          res.status(200).json({
+            id: spot.id,
+            ownerId: spot.ownerId,
+            address: spot.address,
+            city: spot.city,
+            state: spot.state,
+            country: spot.country,
+            lat: spot.lat,
+            lng: spot.lng,
+            name: spot.name,
+            description: spot.description,
+            price: spot.price,
+            createdAt: spot.createdAt,
+            updatedAt: spot.updatedAt,
           });
 
         } catch (error) {
@@ -170,6 +205,35 @@ router.post('/', requireAuth, async (req, res) => {
           res.status(500).json({ message: 'Internal Server Error' });
         }
       });
+
+      router.post('/:spotId/images', requireAuth, async (req, res) => {
+        try {
+          const spotId = req.params.spotId;
+          const { url, preview } = req.body;
+          const ownerId = req.user.id;
+
+          const spot = await Spot.findOne({ where: { id: spotId } });
+
+          if (!(spot.ownerId === req.user.id)) {
+            return res.status(404).json({message: 'Not Authorized'})
+          };
+
+          if (!spot) {
+            return res.status(404).json({message: 'Spot could not be found'})
+          };
+
+          const newImage = await SpotImage.create({
+            spotId,
+            url,
+            preview,
+          });
+
+          res.status(200).json({ spotId: newImage.spotId, url: newImage.url, preview: newImage.preview});
+
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ error: 'Internal Server Error' });
+      }
 
       });
 

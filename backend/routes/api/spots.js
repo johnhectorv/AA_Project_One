@@ -142,6 +142,12 @@ router.post('/', requireAuth, async (req, res) => {
             where: { id: spotId },
           });
 
+          if(!spot) {
+            return res.status(404).json({
+              message: 'Spot could not be found'
+            });
+          }
+
           if (!(spot.ownerId === req.user.id)) {
             return res.status(404).json({message: 'Not Authorized'})
           };
@@ -160,12 +166,6 @@ router.post('/', requireAuth, async (req, res) => {
                 description: 'Description is required',
                 price: 'Price per day must be a positive number'
               }
-            });
-          }
-
-          if(!spot) {
-            return res.status(404).json({
-              message: 'Spot could not be found'
             });
           }
 
@@ -214,12 +214,12 @@ router.post('/', requireAuth, async (req, res) => {
 
           const spot = await Spot.findOne({ where: { id: spotId } });
 
-          if (!(spot.ownerId === req.user.id)) {
-            return res.status(404).json({message: 'Not Authorized'})
-          };
-
           if (!spot) {
             return res.status(404).json({message: 'Spot could not be found'})
+          };
+
+          if (!(spot.ownerId === req.user.id)) {
+            return res.status(404).json({message: 'Not Authorized'})
           };
 
           const newImage = await SpotImage.create({

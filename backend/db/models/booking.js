@@ -22,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    bookingId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
     spotId: DataTypes.INTEGER,
     startDate: DataTypes.DATE,

@@ -9,10 +9,147 @@ const { Spot, User, SpotImage, Review, Booking, ReviewImage } = require('../../d
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+const validateQuery = [
+  check('page')
+      .optional()
+      .isInt({ min: 1 })
+      .withMessage('Page must be an integer greater than or equal to 1'),
+
+  check('size')
+      .optional()
+      .isInt({ min: 1, max: 20 })
+      .withMessage('Size must be an integer between 1 and 20'),
+
+  check('minLat')
+      .optional()
+      .isFloat({ min: -90, max: 90 })
+      .withMessage('Minimum latitude must be within -90 and 90'),
+
+  check('maxLat')
+      .optional()
+      .isFloat({ min: -90, max: 90 })
+      .withMessage('Maximum latitude must be within -90 and 90'),
+
+  check('minLng')
+      .optional()
+      .isFloat({ min: -180, max: 180 })
+      .withMessage('Minimum longitude must be within -180 and 180'),
+
+  check('maxLng')
+      .optional()
+      .isFloat({ min: -180, max: 180 })
+      .withMessage('Maximum longitude must be within -180 and 180'),
+
+  check('minPrice')
+      .optional()
+      .isFloat({ min: 0 })
+      .withMessage('Minimum price must be a positive number'),
+
+  check('maxPrice')
+      .optional()
+      .isFloat({ min: 0 })
+      .withMessage('Maximum price must be a positive number'),
+
+  handleValidationErrors
+];
+
+function averagePairs(arr) {
+  const result = [];
+  const sums = {};
+  const counts = {};
+
+  arr.forEach(pair => {
+    const key = pair[0];
+
+    if (!sums[key]) {
+      sums[key] = 0;
+      counts[key] = 0;
+    }
+
+    sums[key] += pair[1];
+    counts[key]++;
+  });
+
+  for (const key in sums) {
+    const avg = sums[key] / counts[key];
+    result.push([parseInt(key), avg]);
+  }
+
+  return result;
+}
+
+router.get('/', validateQuery, async (req, res) => {
     try {
-        const allData = await Spot.findAll();
-        res.json({Spots: allData});
+      const { page = 1, size = 20, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+
+
+      const filter = {
+        where: {}
+      };
+
+      if (minLat && maxLat) {
+        filter.where.lat = { [Op.between]: [minLat, maxLat] };
+      }
+
+      if (minLng && maxLng) {
+        filter.where.lng = { [Op.between]: [minLng, maxLng] };
+      }
+
+      if (minPrice && maxPrice) {
+        filter.where.price = { [Op.between]: [minPrice, maxPrice] };
+      }
+
+      filter.include = [
+        {
+          model: SpotImage,
+        },
+        {
+          model: Review,
+        }
+      ];
+
+      const spots = await Spot.findAll(filter);
+
+      let response = [];
+
+      for (let i = 0;  i < spots.length; i++) {
+        let avgStarRating = null;
+
+        if (spots[i].Reviews && spots[i].Reviews.length > 0) {
+          const reviewData = spots[i].Reviews.map(e => [e.spotId, e.stars]);
+          const averageRating = averagePairs(reviewData);
+
+          if (averageRating.length > 0) {
+            avgStarRating = averageRating[0][1];
+          }
+        }
+
+        response.push({
+          id: spots[i].id,
+          ownerId: spots[i].ownerId,
+          address: spots[i].address,
+          city: spots[i].city,
+          state: spots[i].state,
+          country: spots[i].country,
+          lat: spots[i].lat,
+          lng: spots[i].lng,
+          name: spots[i].name,
+          description: spots[i].description,
+          price: spots[i].price,
+          createdAt: spots[i].createdAt,
+          updatedAt: spots[i].updatedAt,
+          avgStarRating: avgStarRating,
+          SpotImages: spots[i].SpotImages,
+        });
+      }
+
+
+
+      res.json({
+        Spots: response,
+        page: page,
+        size: size
+      });
     } catch (error) {
         console.error('Error retrieving data:', error);
         res.status(500).json({ error: 'No Data Found' });

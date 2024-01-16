@@ -54,7 +54,7 @@ module.exports = {
       updatedAt: new Date(),
     },
   ], { validate: true });
-  },
+ },
 
   async down (queryInterface, Sequelize) {
     options.tableName = 'Spots';

@@ -102,6 +102,7 @@ router.get('/', validateQuery, async (req, res) => {
       filter.include = [
         {
           model: SpotImage,
+          attributes: ['url'],
         },
         {
           model: Review,
@@ -109,6 +110,7 @@ router.get('/', validateQuery, async (req, res) => {
       ];
 
       const spots = await Spot.findAll(filter);
+
 
       let response = [];
 
@@ -122,6 +124,11 @@ router.get('/', validateQuery, async (req, res) => {
           if (averageRating.length > 0) {
             avgStarRating = averageRating[0][1];
           }
+        }
+
+        let previewImage = null;
+        if (spots[i].SpotImages && spots[i].SpotImages.length > 0) {
+          previewImage = spots[i].SpotImages[0].url;
         }
 
         response.push({
@@ -139,7 +146,7 @@ router.get('/', validateQuery, async (req, res) => {
           createdAt: spots[i].createdAt,
           updatedAt: spots[i].updatedAt,
           avgStarRating: avgStarRating,
-          SpotImages: spots[i].SpotImages,
+          SpotImages: previewImage
         });
       }
 

@@ -87,17 +87,30 @@ router.get('/', validateQuery, async (req, res) => {
         where: {}
       };
 
-      if (minLat && maxLat) {
-        filter.where.lat = { [Op.between]: [minLat, maxLat] };
-      }
+      if (minLat !== undefined) {
+        filter.where.lat = { [Op.gte]: minLat };
+    }
 
-      if (minLng && maxLng) {
-        filter.where.lng = { [Op.between]: [minLng, maxLng] };
-      }
+    if (maxLat !== undefined) {
+        filter.where.lat = { ...filter.where.lat, [Op.lte]: maxLat };
+    }
 
-      if (minPrice && maxPrice) {
-        filter.where.price = { [Op.between]: [minPrice, maxPrice] };
-      }
+    if (minLng !== undefined) {
+        filter.where.lng = { [Op.gte]: minLng };
+    }
+
+    if (maxLng !== undefined) {
+        filter.where.lng = { ...filter.where.lng, [Op.lte]: maxLng };
+    }
+
+    if (minPrice !== undefined) {
+        filter.where.price = { [Op.gte]: minPrice };
+    }
+
+    if (maxPrice !== undefined) {
+        filter.where.price = { ...filter.where.price, [Op.lte]: maxPrice };
+    }
+
 
       filter.include = [
         {
@@ -110,6 +123,74 @@ router.get('/', validateQuery, async (req, res) => {
       ];
 
       const spots = await Spot.findAll(filter);
+
+
+      let response = [];
+
+      for (let i = 0;  i < size; i++) {
+        let avgStarRating = null;
+
+        if (spots[i].Reviews && spots[i].Reviews.length > 0) {
+          const reviewData = spots[i].Reviews.map(e => [e.spotId, e.stars]);
+          const averageRating = averagePairs(reviewData);
+
+          if (averageRating.length > 0) {
+            avgStarRating = averageRating[0][1];
+          }
+        }
+
+        let previewImage = null;
+        if (spots[i].SpotImages && spots[i].SpotImages.length > 0) {
+          previewImage = spots[i].SpotImages[0].url;
+        }
+
+        response.push({
+          id: spots[i].id,
+          ownerId: spots[i].ownerId,
+          address: spots[i].address,
+          city: spots[i].city,
+          state: spots[i].state,
+          country: spots[i].country,
+          lat: parseInt(spots[i].lat),
+          lng: parseInt(spots[i].lng),
+          name: spots[i].name,
+          description: spots[i].description,
+          price: spots[i].price,
+          createdAt: spots[i].createdAt,
+          updatedAt: spots[i].updatedAt,
+          avgStarRating: avgStarRating,
+          previewImage: previewImage
+        });
+      }
+
+
+
+      res.json({
+        Spots: response,
+        page: page,
+        size: size
+      });
+    } catch (error) {
+        console.error('Error retrieving data:', error);
+        res.status(500).json({ error: 'No Data Found' });
+    }
+});
+
+router.get('/current', requireAuth, async (req, res) => {
+    try {
+
+      const spots = await Spot.findAll({
+        where: { ownerId: req.user.id},
+        include: [
+          {
+            model: SpotImage,
+            attributes: ['url'],
+          },
+          {
+            model: Review,
+          }
+        ]
+      });
 
 
       let response = [];
@@ -138,40 +219,19 @@ router.get('/', validateQuery, async (req, res) => {
           city: spots[i].city,
           state: spots[i].state,
           country: spots[i].country,
-          lat: spots[i].lat,
-          lng: spots[i].lng,
+          lat: parseInt(spots[i].lat),
+          lng: parseInt(spots[i].lng),
           name: spots[i].name,
           description: spots[i].description,
           price: spots[i].price,
           createdAt: spots[i].createdAt,
           updatedAt: spots[i].updatedAt,
           avgStarRating: avgStarRating,
-          SpotImages: previewImage
+          previewImage: previewImage
         });
       }
 
-
-
-      res.json({
-        Spots: response,
-        page: page,
-        size: size
-      });
-    } catch (error) {
-        console.error('Error retrieving data:', error);
-        res.status(500).json({ error: 'No Data Found' });
-    }
-});
-
-router.get('/current', requireAuth, async (req, res) => {
-    try {
-        const userId = req.user.id;
-
-        const ownedSpots = await Spot.findAll({
-            where: { ownerId: userId }
-        });
-
-        res.json({Spots: ownedSpots});
+        res.json({Spots: response});
     } catch (error) {
         console.error('Error retrieving owned spots:', error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -277,8 +337,8 @@ router.get('/:spotId', async (req, res) => {
       city: spot.city,
       state: spot.state,
       country: spot.country,
-      lat: spot.lat,
-      lng: spot.lng,
+      lat: parseInt(spot.lat),
+      lng: parseInt(spot.lng),
       name: spot.name,
       description: spot.description,
       price: spot.price,
@@ -308,6 +368,10 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
 
     const authorized = spot.ownerId === req.user.id;
 
+    if (!spot) {
+      return res.status(404).json({message: 'Spot couldn\'t be found'})
+    };
+
     if (spot && authorized) {
       await Spot.destroy({
         where: { id:spotId }
@@ -317,10 +381,6 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
     if (spot && !authorized) {
       return res.status(404).json({message: 'Forbidden'})
     }
-
-    if (!spot) {
-      return res.status(404).json({message: 'Spot couldn\'t be found'})
-    };
 
     res.status(200).json({ message: 'Successfully deleted' });
 
@@ -371,8 +431,8 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
       city: spot.city,
       state: spot.state,
       country: spot.country,
-      lat: spot.lat,
-      lng: spot.lng,
+      lat: parseInt(spot.lat),
+      lng: parseInt(spot.lng),
       name: spot.name,
       description: spot.description,
       price: spot.price,
@@ -436,7 +496,6 @@ router.get('/:spotId/reviews', requireAuth, async (req, res) => {
             {
               model: ReviewImage,
               attributes: ['id', 'url'],
-              where: { id: 1 }
             }
           ]
       });
@@ -544,7 +603,6 @@ router.get('/:spotId/bookings', requireAuth, restoreUser, async (req, res) => {
         where: {
           [Op.and]: [
             { spotId: spotId },
-            { userId: userId },
           ]
         },
         include: [
@@ -555,6 +613,7 @@ router.get('/:spotId/bookings', requireAuth, restoreUser, async (req, res) => {
         ],
       });
 
+      if(spot.ownerId === req.user.id) {
       res.status(200).json({ Bookings: spotBookings.map((e) => ({
         User: {
           id: e.User.id,
@@ -568,8 +627,15 @@ router.get('/:spotId/bookings', requireAuth, restoreUser, async (req, res) => {
         endDate: e.endDate,
         createdAt: e.createdAt,
         updatedAt: e.updatedAt
-      }))
-    });
+        }))
+      });
+      } else {
+        res.status(200).json({Bookings: spotBookings.map((e) => ({
+          spotId: e.spotId,
+          startDate: e.startDate,
+          endDate: e.endDate
+        }))})
+      }
 
 
   } catch (error) {

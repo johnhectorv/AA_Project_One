@@ -33,7 +33,6 @@ router.get('/current', requireAuth, async (req, res) => {
             {
               model: ReviewImage,
               attributes: ['id', 'url'],
-              where: { id: 1 }
             }
           ]
         });
@@ -62,8 +61,8 @@ router.get('/current', requireAuth, async (req, res) => {
               state: e.Spot.state,
               country: e.Spot.country,
               lat: e.Spot.lat,
-              lng: e.Spot.lng,
-              name: e.Spot.name,
+              lng: parseInt(e.Spot.lng),
+              name: parseInt(e.Spot.name),
               price: e.Spot.price,
               previewImage: e.Spot.SpotImages ? e.Spot.SpotImages[0].url : null
             },

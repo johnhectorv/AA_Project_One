@@ -37,8 +37,8 @@ router.get('/current', requireAuth, async (req, res) => {
           city: e.Spot.city,
           state: e.Spot.state,
           country: e.Spot.country,
-          lat: e.Spot.lat,
-          lng: e.Spot.lng,
+          lat: parseInt(e.Spot.lat),
+          lng: parseInt(e.Spot.lng),
           name: e.Spot.name,
           price: e.Spot.price,
           previewImage: e.Spot.SpotImages ? e.Spot.SpotImages[0].url : null

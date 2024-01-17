@@ -82,7 +82,6 @@ router.get('/', validateQuery, async (req, res) => {
     try {
       const { page = 1, size = 20, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
 
-
       const filter = {
         where: {}
       };
@@ -127,7 +126,7 @@ router.get('/', validateQuery, async (req, res) => {
 
       let response = [];
 
-      for (let i = 0;  i < size; i++) {
+      for (let i = 0;  i < size && i < spots.length; i++) {
         let avgStarRating = null;
 
         if (spots[i].Reviews && spots[i].Reviews.length > 0) {

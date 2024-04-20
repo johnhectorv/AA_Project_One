@@ -44,13 +44,6 @@ const sessionReducer = (state = initialState, action) => {
   }
 };
 
-export const restoreUser = () => async (dispatch) => {
-    const response = await csrfFetch("/api/session");
-    const data = await response.json();
-    dispatch(setUser(data.user));
-    return response;
-};
-
 export const signup = (user) => async (dispatch) => {
   const { username, firstName, lastName, email, password } = user;
   const response = await csrfFetch("/api/users", {
@@ -68,6 +61,13 @@ export const signup = (user) => async (dispatch) => {
   return response;
 };
 
+export const restoreUser = () => async (dispatch) => {
+  const response = await csrfFetch("/api/session");
+  const data = await response.json();
+  dispatch(setUser(data.user));
+  return response;
+};
+
 export const logout = () => async (dispatch) => {
     const response = await csrfFetch('/api/session', {
       method: 'DELETE'
@@ -75,5 +75,141 @@ export const logout = () => async (dispatch) => {
     dispatch(removeUser());
     return response;
   };
+
+  export const spots = async () => {
+    try {
+      const response = await csrfFetch('/api/spots', {
+        method: 'GET'
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching spots:', error);
+      throw error;
+    }
+  }
+
+  export const currentUser = async () => {
+    try {
+      const response = await csrfFetch('/api/session', {
+        method: 'GET'
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching spots:', error);
+      throw error;
+    }
+  }
+
+  export const spotDetailsById = async (spotId) => {
+    try {
+      if (isNaN(parseInt(spotId))) {
+        throw new Error('Invalid spot ID. Must be an integer.');
+      }
+
+      const response = await csrfFetch(`/api/spots/${spotId}`, {
+        method: 'GET'
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching spot details:', error);
+      throw error;
+    }
+  }
+
+  export const reviewBySpotId = async (spotId) => {
+    try {
+      if (isNaN(parseInt(spotId))) {
+        throw new Error('Invalid spot ID. Must be an integer.');
+      }
+
+      const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+        method: 'GET'
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching spot details:', error);
+      throw error;
+    }
+  }
+
+  export const createSpot = (spotData) => async (dispatch) => {
+    try {
+      const response = await csrfFetch("/api/spots", {
+        method: "POST",
+        body: JSON.stringify(spotData)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create spot');
+      }
+
+      const data = await response.json();
+      dispatch(setUser(data.user));
+      return data;
+    } catch (error) {
+      console.error('Error creating spot:', error);
+      throw error;
+    }
+  };
+
+  export const addImageToSpot = (spotId, imageData) => async () => {
+    try {
+      const response = await csrfFetch(`/api/spots/${spotId}/images`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(imageData)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add image to spot');
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error adding image to spot:', error);
+      throw error;
+    }
+  };
+
+  export const addReviewToSpot = (spotId, reviewData) => async () => {
+    try {
+      const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(reviewData)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        if (response.status === 400) {
+          const validationErrors = errorData.errors;
+          throw new Error(`Validation Error: ${JSON.stringify(validationErrors)}`);
+        } else if (response.status === 404) {
+          throw new Error('Spot not found');
+        } else if (response.status === 500) {
+          throw new Error('User already has a review for this spot');
+        } else {
+          throw new Error('Failed to add review to spot');
+        }
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error adding review to spot:', error);
+      throw error;
+    }
+  };
+
+
 
 export default sessionReducer;

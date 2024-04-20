@@ -1,0 +1,55 @@
+.landing-page-container {
+    display: flex;
+    justify-content: flex-start;
+    padding: 44px;
+    height: auto;
+}
+
+.spot-tile-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 100%;
+    height: auto;
+}
+
+.spot-tile {
+    width: 525px;
+    height: 630px;
+    margin: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.spot-thumbnail {
+    width: 525px;
+    height: 525px;
+    border-radius: 10px;
+}
+
+.spot-details-one {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    justify-content: space-between;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    height: 30px;
+}
+
+.star-img {
+    width: 13px;
+    height: 13px;
+    margin-right: 11px;
+}
+
+.spot-details-two {
+    display: flex;
+    align-items: center;
+    height: 20px;
+}

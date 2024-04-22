@@ -1,0 +1,96 @@
+.create-spot-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30%;
+  margin: 0 auto;
+}
+
+.create-spot-title {
+  margin: 20px 0;
+}
+
+.create-spot-section-wrapper {
+  width: 100%;
+}
+
+.create-spot-section {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.create-spot-section:not(:last-child) {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 20px;
+}
+
+.create-spot-section label,
+.create-spot-section input,
+.create-spot-section textarea,
+.create-spot-section .create-spot-submit-btn {
+  display: block;
+  margin: 10px auto;
+}
+
+.create-spot-submit-btn {
+  padding: 8px 16px;
+  background-color: #b30000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.create-spot-submit-btn:hover {
+  background-color: #8c0000;
+}
+
+.create-spot-section p {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #888;
+}
+
+.create-spot-section input[type="text"],
+.create-spot-section input[type="number"],
+.create-spot-section textarea {
+  width: calc(100% - 20px);
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.create-spot-section input[type="text"]:focus,
+.create-spot-section input[type="number"]:focus,
+.create-spot-section textarea:focus {
+  outline: none;
+  border-color: #ff0000;
+}
+
+.create-spot-section .error-message {
+  color: #dc3545;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.input-label {
+  display: flex;
+  align-items: center;
+}
+
+.error-message {
+  color: #dc3545;
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+.error-message.country-error {
+  color: inherit;
+}
+
+@media (max-width: 768px) {
+  .create-spot-section-wrapper {
+    width: 95%;
+  }
+}

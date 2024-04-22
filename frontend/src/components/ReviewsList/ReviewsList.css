@@ -1,0 +1,68 @@
+.reviewer {
+    font-size: x-large;
+}
+
+.date {
+    font-size: medium;
+    color: grey;
+}
+
+.comment {
+    font-size: medium;
+    margin-bottom: 20px;
+}
+
+.post-review-button-list {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #000000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    margin-bottom: 40px;
+  }
+
+  .modal-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .yes-button {
+    background-color: #ff645c;
+    color: #FFF;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .yes-button:hover {
+    background-color: #E50000;
+  }
+
+  .no-button {
+    background-color: #919191;
+    color: #FFF;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .no-button:hover {
+    background-color: #6e6e6e;
+  }

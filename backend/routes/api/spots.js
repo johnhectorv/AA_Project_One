@@ -502,7 +502,7 @@ router.get('/:spotId/reviews', async (req, res) => {
       res.json({
         Reviews: ownedReviews.map((e) => ({
           id: e.id,
-          userId: e.userId,
+          userId: e.User.id,
           spotId: e.spotId,
           review: e.review,
           stars: e.stars,

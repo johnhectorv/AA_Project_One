@@ -1,11 +1,9 @@
 .spot-details {
-  /* Styles for spot name */
-  margin: 100px; /* Remove default margin */
+  margin: 100px;
 }
 
 .spot-details__location {
-  /* Styles for location */
-  margin-top: 5px; /* Add margin between name and location */
+  margin-top: 5px;
 }
 
 .spot-details__image-boxes {
@@ -33,7 +31,6 @@
   object-fit: cover;
 }
 
-/* Hosted By and Box with Button */
 
 .description-box-container {
   display: flex;
@@ -131,8 +128,6 @@
   border: none;
   border-radius: 5px;
 }
-
-/* REVIEWS */
 
 .new-spot-star {
   width: 40px;

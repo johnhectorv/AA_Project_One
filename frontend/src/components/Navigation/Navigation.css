@@ -28,8 +28,8 @@ ul {
 
   .large-screen-text {
     display: inline-block;
-    margin-left: 5px; /* Adjust the margin as needed */
-    font-size: 16px; /* Adjust the font size as needed */
+    margin-left: 5px;
+    font-size: 16px;
     color: rgb(255, 0, 0);
   }
 

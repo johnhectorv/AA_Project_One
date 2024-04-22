@@ -7,6 +7,7 @@ import LandingPage from './components/LandingPage';
 import SpotDetails from './components/SpotDetails';
 import CreateSpot from './components/CreateSpot';
 import ReviewsList from './components/ReviewsList';
+import ManageSpots from './components/ManageSpots';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -47,8 +48,8 @@ const router = createBrowserRouter([
         element: <ReviewsList />
       },
       {
-        path: '/test',
-        element: <div>hTEST!!</div>
+        path: '/manage-spots',
+        element: <ManageSpots />
       }
     ]
   }

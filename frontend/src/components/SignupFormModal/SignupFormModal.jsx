@@ -31,7 +31,7 @@ function SignupFormModal() {
     e.preventDefault();
 
     if (!activateButton) {
-      setErrors({}); // Clear previous errors
+      setErrors({});
       if (!passwordMatch) {
         setErrors({
           confirmPassword: "Confirm Password field must be the same as the Password field"
@@ -39,7 +39,6 @@ function SignupFormModal() {
         return;
       }
 
-      // Dispatch signup action
       dispatch(
         sessionActions.signup({
           email,

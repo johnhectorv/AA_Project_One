@@ -28,7 +28,11 @@ function LandingPage() {
             title={spot.name}
           >
             <Link to={`/spots/${spot.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-              <img src={spot.previewImage} alt={spot.name} className="spot-thumbnail" />
+              {spot.previewImage ? (
+                <img src={spot.previewImage} alt={spot.name} className="spot-thumbnail" />
+              ) : (
+                <img src={`https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg`} alt={spot.name} className="spot-thumbnail" />
+              )}
               <div className="spot-details-one">
                   <p>{spot.city}, {spot.state}</p>
                   <div className='rating'>

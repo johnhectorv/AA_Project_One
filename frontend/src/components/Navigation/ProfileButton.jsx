@@ -41,6 +41,10 @@ function ProfileButton({ user }) {
     window.location.href = '/';
   };
 
+  const manage = () => {
+    window.location.href = '/manage-spots';
+  }
+
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
@@ -62,7 +66,7 @@ function ProfileButton({ user }) {
               <div className='menu-underline'></div>
             </div>
             <div className='menu-buttons'>
-              <div className='manage-spots'>Manage Spots</div>
+              <div className='manage-spots' onClick={manage}>Manage Spots</div>
               <div className='logout' onClick={logout} to='/'>Log Out</div>
             </div>
           </>

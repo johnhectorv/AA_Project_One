@@ -475,7 +475,7 @@ router.post('/:spotId/images', requireAuth, async (req, res) => {
   }
 });
 
-router.get('/:spotId/reviews', requireAuth, async (req, res) => {
+router.get('/:spotId/reviews', async (req, res) => {
   try {
       const spotId = req.params.spotId;
 

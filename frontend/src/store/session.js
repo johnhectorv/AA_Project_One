@@ -210,6 +210,44 @@ export const logout = () => async (dispatch) => {
     }
   };
 
+  export const deleteReview = (reviewId) => async () => {
+    try {
+      const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        if (response.status === 404) {
+          throw new Error('Review couldn\'t be found');
+        } else {
+          throw new Error('Failed to delete review');
+        }
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error deleting review:', error);
+      throw error;
+    }
+  };
+
+  export const getAllSpotsByCurrentUser = async () => {
+    try {
+      const response = await csrfFetch('/api/spots/current', {
+        method: 'GET'
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching spots:', error);
+      throw error;
+    }
+  }
+
+
+
 
 
 export default sessionReducer;

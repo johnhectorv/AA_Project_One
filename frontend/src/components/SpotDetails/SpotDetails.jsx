@@ -32,7 +32,7 @@ function SpotDetails() {
 
   const handleReserve = () => {
     alert('Feature coming soon');
-    console.log(spotData.avgStarRating)
+    console.log(spotData.SpotImages)
   };
 
   const handleDeleteReview = (reviewId) => {
@@ -76,7 +76,12 @@ function SpotDetails() {
             <p className="spot-details__location">Location: {spotData.city}, {spotData.state}, {spotData.country}</p>
             <div className="spot-details__image-boxes">
               <div className="spot-details__single-image">
-                <img className="single-image" src={'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg'} alt="Spot" />
+                {spotData.SpotImages > 0 ? (
+                  <img className="single-image" src={spotData.SpotImages[0].url} alt="Spot" />
+                ) : (
+                  <img className="single-image" src={'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg'} alt="Spot" />
+                )}
+
               </div>
               <div className="spot-details__multiple-images">
                 {spotData.SpotImages.slice(1).map((image, index) => (
@@ -103,7 +108,7 @@ function SpotDetails() {
                       <div className='rating-box'>
                         <div className='rating'>
                           <div className='star'>
-                            <img src='../../../img/star.png' className="star-img" alt="Star" />
+                            <img src={'https://static.vecteezy.com/system/resources/previews/021/508/043/non_2x/black-star-black-shotting-star-transparent-black-bokeh-stars-free-free-png.png'} className="star-img" alt="Star" />
                           </div>
                           <div className='avg-rating'>{spotData.avgStarRating ? spotData.avgStarRating.toFixed(1) : 'New'}</div>
                         </div>
@@ -135,7 +140,7 @@ function SpotDetails() {
                           <div className='rating-box-2'>
                             <div className='rating'>
                               <div className='star'>
-                                <img src='../../../img/star.png' className='new-spot-star' alt='New Spot Star' />
+                                <img src={'https://static.vecteezy.com/system/resources/previews/021/508/043/non_2x/black-star-black-shotting-star-transparent-black-bokeh-stars-free-free-png.png'} className='new-spot-star' alt='New Spot Star' />
                               </div>
                               <div className='avg-rating'>{spotData.avgStarRating ? spotData.avgStarRating.toFixed(1) : 'New'}</div>
                             </div>
@@ -154,7 +159,7 @@ function SpotDetails() {
                         <div className='no-reviews'>
                           <div className='rating'>
                             <div className='star'>
-                              <img src='../../../img/star.png' className='new-spot-star' alt='New Spot Star' />
+                              <img src={'https://static.vecteezy.com/system/resources/previews/021/508/043/non_2x/black-star-black-shotting-star-transparent-black-bokeh-stars-free-free-png.png'} className='new-spot-star' alt='New Spot Star' />
                             </div>
                             <div className='new'>New</div>
                           </div>
@@ -170,7 +175,7 @@ function SpotDetails() {
                               <div className='rating-box-2'>
                                 <div className='rating'>
                                   <div className='star'>
-                                    <img src='../../../img/star.png' className='new-spot-star' alt='New Spot Star' />
+                                    <img src={'https://static.vecteezy.com/system/resources/previews/021/508/043/non_2x/black-star-black-shotting-star-transparent-black-bokeh-stars-free-free-png.png'} className='new-spot-star' alt='New Spot Star' />
                                   </div>
                                   <div className='avg-rating'>{spotData.avgStarRating ? spotData.avgStarRating.toFixed(1) : 'New'}</div>
                                 </div>
@@ -193,7 +198,7 @@ function SpotDetails() {
                               <div className='rating-box-2'>
                                 <div className='rating'>
                                   <div className='star'>
-                                    <img src='../../../img/star.png' className='new-spot-star' alt='New Spot Star' />
+                                    <img src={'https://static.vecteezy.com/system/resources/previews/021/508/043/non_2x/black-star-black-shotting-star-transparent-black-bokeh-stars-free-free-png.png'} className='new-spot-star' alt='New Spot Star' />
                                   </div>
                                   <div className='avg-rating'>{spotData.avgStarRating ? spotData.avgStarRating.toFixed(1) : 'New'}</div>
                                 </div>
@@ -214,7 +219,7 @@ function SpotDetails() {
                         <div className='no-reviews'>
                           <div className='rating'>
                             <div className='star'>
-                              <img src='../../../img/star.png' className='new-spot-star' alt='New Spot Star' />
+                              <img src={'https://static.vecteezy.com/system/resources/previews/021/508/043/non_2x/black-star-black-shotting-star-transparent-black-bokeh-stars-free-free-png.png'} className='new-spot-star' alt='New Spot Star' />
                             </div>
                             <div className='new'>New</div>
                           </div>
@@ -236,7 +241,7 @@ function SpotDetails() {
                       <div className='rating-box-2'>
                         <div className='rating'>
                           <div className='star'>
-                            <img src='../../../img/star.png' className='new-spot-star' alt='New Spot Star' />
+                            <img src={'https://static.vecteezy.com/system/resources/previews/021/508/043/non_2x/black-star-black-shotting-star-transparent-black-bokeh-stars-free-free-png.png'} className='new-spot-star' alt='New Spot Star' />
                           </div>
                           <div className='avg-rating'>{spotData.avgStarRating ? spotData.avgStarRating.toFixed(1) : 'New'}</div>
                         </div>
@@ -255,7 +260,7 @@ function SpotDetails() {
                     <div className='no-reviews'>
                       <div className='rating'>
                         <div className='star'>
-                          <img src='../../../img/star.png' className='new-spot-star' alt='New Spot Star' />
+                          <img src={'https://static.vecteezy.com/system/resources/previews/021/508/043/non_2x/black-star-black-shotting-star-transparent-black-bokeh-stars-free-free-png.png'} className='new-spot-star' alt='New Spot Star' />
                         </div>
                         <div className='new'>New</div>
                       </div>

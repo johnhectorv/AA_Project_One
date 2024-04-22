@@ -72,7 +72,7 @@ function ManageSpots() {
         ) : (
           <div>
             <p>No spots have been posted yet.</p>
-            <Link to="/new-spot">Create a New Spot</Link>
+            <Link to="/create-spot">Create a New Spot</Link>
           </div>
         )}
       </div>

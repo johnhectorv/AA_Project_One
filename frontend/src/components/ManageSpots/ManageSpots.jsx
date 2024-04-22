@@ -86,6 +86,7 @@ function ManageSpots() {
               <button className='no-button' onClick={() => setShowModal(false)}>No (Keep Spot)</button>
             </div>
           </div>
+          <div></div>
         </div>
       )}
     </div>

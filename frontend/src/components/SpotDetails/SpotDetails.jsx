@@ -76,17 +76,25 @@ function SpotDetails() {
             <p className="spot-details__location">Location: {spotData.city}, {spotData.state}, {spotData.country}</p>
             <div className="spot-details__image-boxes">
               <div className="spot-details__single-image">
-                {spotData.SpotImages > 0 ? (
+                {spotData.SpotImages.length > 0 ? (
                   <img className="single-image" src={spotData.SpotImages[0].url} alt="Spot" />
                 ) : (
                   <img className="single-image" src={'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg'} alt="Spot" />
                 )}
-
               </div>
               <div className="spot-details__multiple-images">
-                {spotData.SpotImages.slice(1).map((image, index) => (
-                  image.url && <img key={index} className="multi-image" src={image.url} alt={`Spot ${index}`} />
-                ))}
+                {spotData.SpotImages.length > 1 && (
+                  <img className="multi-image" src={spotData.SpotImages[1].url} alt="Spot 1" />
+                )}
+                {spotData.SpotImages.length > 2 && (
+                  <img className="multi-image" src={spotData.SpotImages[2].url} alt="Spot 2" />
+                )}
+                {spotData.SpotImages.length > 3 && (
+                  <img className="multi-image" src={spotData.SpotImages[3].url} alt="Spot 3" />
+                )}
+                {spotData.SpotImages.length > 4 && (
+                  <img className="multi-image" src={spotData.SpotImages[4].url} alt="Spot 4" />
+                )}
               </div>
             </div>
             <div className='description-box-container'>

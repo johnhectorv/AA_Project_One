@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import { spotDetailsById, reviewBySpotId } from '../../store/session';
 import { useParams } from 'react-router-dom';
 import './SpotDetails.css';
-import ReviewsList from '../ReviewsList';
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 import ReviewFormModal from '../ReviewFormModal/ReviewFormModal';
+import ReviewsList from '../ReviewsList/ReviewsList';
 
 
 function SpotDetails() {

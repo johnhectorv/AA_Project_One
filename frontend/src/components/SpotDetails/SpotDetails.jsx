@@ -128,7 +128,6 @@ function SpotDetails() {
                     <div className='spot-owner'>
                       { spotData.numReviews !== 0 ? (
                         <div className='has-reviews'>
-                          logged-owner-reviews CHECKED
                           <div className='rating-box-2'>
                             <div className='rating'>
                               <div className='star'>
@@ -149,7 +148,6 @@ function SpotDetails() {
                         </div>
                       ) : (
                         <div className='no-reviews'>
-                          logged-owner-!reviews CHECKED
                           <div className='rating'>
                             <div className='star'>
                               <img src='../../../img/star.png' className='new-spot-star' alt='New Spot Star' />
@@ -165,7 +163,6 @@ function SpotDetails() {
                         <div className='has-reviews'>
                           { (!noReview()) ? (
                             <div className='user-not-reviewed'>
-                              logged-!owner-reviews-!reviewed
                               <div className='rating-box-2'>
                                 <div className='rating'>
                                   <div className='star'>
@@ -189,7 +186,6 @@ function SpotDetails() {
                             </div>
                           ) : (
                             <div className='user-reviewed'>
-                              logged-!owner-reviews-reviewed CHECKED
                               <div className='rating-box-2'>
                                 <div className='rating'>
                                   <div className='star'>
@@ -212,7 +208,6 @@ function SpotDetails() {
                         </div>
                       ) : (
                         <div className='no-reviews'>
-                          logged-!user-!reviews CHECKED
                           <div className='rating'>
                             <div className='star'>
                               <img src='../../../img/star.png' className='new-spot-star' alt='New Spot Star' />
@@ -234,7 +229,6 @@ function SpotDetails() {
                 <div className='logged-out-container'>
                   { spotData.avgStarRating !== null ? (
                     <div className='has-reviews'>
-                      !logged-reviews CHECKED
                       <div className='rating-box-2'>
                         <div className='rating'>
                           <div className='star'>
@@ -255,7 +249,6 @@ function SpotDetails() {
                     </div>
                   ) : (
                     <div className='no-reviews'>
-                      !logged-!reviews CHECKED
                       <div className='rating'>
                         <div className='star'>
                           <img src='../../../img/star.png' className='new-spot-star' alt='New Spot Star' />

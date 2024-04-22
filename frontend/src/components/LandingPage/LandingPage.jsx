@@ -28,11 +28,11 @@ function LandingPage() {
             title={spot.name}
           >
             <Link to={`/spots/${spot.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-              {spot.previewImage ? (
-                <img src={spot.previewImage} alt={spot.name} className="spot-thumbnail" />
-              ) : (
-                <img src={`https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg`} alt={spot.name} className="spot-thumbnail" />
-              )}
+            {spot.previewImage ? (
+                  <img className="single-image" src={spot.previewImage} alt="Spot" />
+                ) : (
+                  <img className="single-image" src={'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg'} alt="Spot" />
+                )}
               <div className="spot-details-one">
                   <p>{spot.city}, {spot.state}</p>
                   <div className='rating'>

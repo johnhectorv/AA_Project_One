@@ -86,7 +86,11 @@ function SpotDetails() {
             </div>
             <div className='description-box-container'>
               <div className='description-container'>
-                <div className='hostedBy'> Hosted by {spotData.Owner.firstName} {spotData.Owner.lastName} </div>
+                { spotData.Owner !== null ? (
+                  <div className='hostedBy'> Hosted by {spotData.Owner.firstName} {spotData.Owner.lastName} </div>
+                ) : (
+                  <div className='hostedBy'> Hosted by </div>
+                )}
                 <div className='discription'>{spotData.description}</div>
               </div>
               <div className='box-container'>
@@ -294,7 +298,7 @@ function ReviewsList({ reviews, handleDeleteReview, sessionUser }) {
             <div className="date">{formatDate(review.createdAt)}</div>
             <div className="comment">{review.review}</div>
 
-            { review.userId === sessionUser.id ? (
+            { sessionUser !== null && review.userId === sessionUser.id ? (
               <button className='delete-review-button' onClick={() => handleDeleteReview(review.id)}>Delete</button>
             ) : (
               <div></div>

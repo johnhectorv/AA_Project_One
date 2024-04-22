@@ -52,7 +52,7 @@ function ManageSpots() {
                   <div className="spot-details-one">
                     <p>{spot.city}, {spot.state}</p>
                     <div className='rating'>
-                      <img src='../../../img/star.png' alt={spot.name} className="star-img" />
+                      <img src={'https://static.vecteezy.com/system/resources/previews/021/508/043/non_2x/black-star-black-shotting-star-transparent-black-bokeh-stars-free-free-png.png'} alt={spot.name} className="star-img" />
                       <p>{spot.avgStarRating ? spot.avgStarRating.toFixed(1) : 'New'}</p>
                     </div>
                   </div>

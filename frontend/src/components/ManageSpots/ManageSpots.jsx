@@ -35,10 +35,6 @@ function ManageSpots() {
     }
   };
 
-  const handleUpdate = (spotId) => {
-    console.log('Update spot with ID:', spotId);
-  };
-
   return (
     <div className="landing-page-container">
       <div>Manage Spots</div>
@@ -65,7 +61,9 @@ function ManageSpots() {
                   </div>
                 </Link>
                 <div className="spot-buttons">
-                  <button onClick={() => handleUpdate(spot.id)}>Update</button>
+                  <Link to={`/edit-spot/${spot.id}`}>
+                    <button>Update</button>
+                  </Link>
                   <button onClick={() => handleDeleteSpot(spot.id)}>Delete</button>
                 </div>
               </div>

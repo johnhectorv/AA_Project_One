@@ -265,6 +265,44 @@ export const logout = () => async (dispatch) => {
     }
   };
 
+  export const editSpot = (spotId, spotData) => async () => {
+    try {
+      const { address, city, state, country, lat, lng, name, description, price } = spotData;
+      const response = await csrfFetch(`/api/spots/${spotId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          address,
+          city,
+          state,
+          country,
+          lat,
+          lng,
+          name,
+          description,
+          price
+        })
+      });
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error('Spot couldn\'t be found');
+        } else {
+          throw new Error('Failed to update spot');
+        }
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error updating spot:', error);
+      throw error;
+    }
+  };
+
+
 
 
 export default sessionReducer;

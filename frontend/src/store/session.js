@@ -121,20 +121,18 @@ export const logout = () => async (dispatch) => {
 
   export const reviewBySpotId = async (spotId) => {
     try {
-      if (isNaN(parseInt(spotId))) {
-        throw new Error('Invalid spot ID. Must be an integer.');
-      }
-
       const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
         method: 'GET'
       });
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Error fetching spot details:', error);
+      console.error('Error fetching reviews:', error);
       throw error;
     }
   }
+
+
 
   export const createSpot = (spotData) => async (dispatch) => {
     try {

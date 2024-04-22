@@ -12,8 +12,8 @@ function Navigation({ isLoaded }) {
       <li>
         <NavLink to="/">
           <div className="image-container">
-            <img className='large-screen' src='../../../img/fire3.png' alt='Home' />
-            <img className='small-screen' src='../../../img/fire3.png' alt='Home' />
+            <img className='large-screen' src={`https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAyL3YyMTctMi1taW50LW5pbmctNzEtaWNvbnMtam9iMTcyMS5wbmc.png`} alt='Home' />
+            <img className='small-screen' src={`https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAyL3YyMTctMi1taW50LW5pbmctNzEtaWNvbnMtam9iMTcyMS5wbmc.png`} alt='Home' />
             <span className="large-screen-text">FireBnB</span>
           </div>
         </NavLink>

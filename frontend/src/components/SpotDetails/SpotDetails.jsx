@@ -51,11 +51,6 @@ function SpotDetails() {
         </div>
       )
   }
-  const list = () => {
-    return (
-      <ReviewsList/>
-    )
-  }
 
   return (
     <div>
@@ -134,7 +129,7 @@ function SpotDetails() {
                                     )}
                                 </div>
                                 <div>
-                                    { list() }
+                                  <ReviewsList/>
                                 </div>
                             </div>
                         ) : (
@@ -174,7 +169,7 @@ function SpotDetails() {
                                         { reviewButton() }
                                         </div>
                                         <div>
-                                            { list() }
+                                          <ReviewsList/>
                                         </div>
                                     </div>
                                 ) : (
@@ -195,7 +190,7 @@ function SpotDetails() {
                                             )}
                                         </div>
                                         <div>
-                                            { list() }
+                                          <ReviewsList/>
                                         </div>
                                     </div>
                                 )}
@@ -240,7 +235,7 @@ function SpotDetails() {
                             )}
                         </div>
                         <div>
-                          { list() }
+                          <ReviewsList/>
                         </div>
                     </div>
                 ) : (

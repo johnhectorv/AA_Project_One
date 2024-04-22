@@ -217,7 +217,6 @@ export const logout = () => async (dispatch) => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
         if (response.status === 404) {
           throw new Error('Review couldn\'t be found');
         } else {
@@ -246,7 +245,27 @@ export const logout = () => async (dispatch) => {
     }
   }
 
+  export const deleteSpot = (spotId) => async () => {
+    try {
+      const response = await csrfFetch(`/api/spots/${spotId}`, {
+        method: "DELETE",
+      });
 
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error('Spot couldn\'t be found');
+        } else {
+          throw new Error('Failed to delete spot');
+        }
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error deleting spot:', error);
+      throw error;
+    }
+  };
 
 
 

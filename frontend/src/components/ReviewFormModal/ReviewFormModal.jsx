@@ -11,7 +11,6 @@ function ReviewFormModal({ spotId }) {
 
   const [comment, setComment] = useState('');
   const [starRating, setStarRating] = useState(0);
-  const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState(null);
 
   const isButtonDisabled = comment.length < 10 || starRating === 0;
@@ -27,7 +26,6 @@ function ReviewFormModal({ spotId }) {
       await dispatch(addReviewToSpot(spotId, reviewData));
       setComment('');
       setStarRating(0);
-      setErrors({});
       setServerError(null);
       closeModal();
       window.location.reload();
